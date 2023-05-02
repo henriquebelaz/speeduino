@@ -871,8 +871,8 @@ struct config2 {
   byte injAngRPM[4];
 
   byte idleTaperTime;
-  byte dfcoDelay;
-  byte dfcoMinCLT;
+  byte dfcoStartDelay; // Delay time before DFCO starts ramping in
+  byte dfcoMinCLT; // Minimum coolant temperature for DFCO
 
   //VSS Stuff
   byte vssMode : 2; ///< VSS (Vehicle speed sensor) mode (0=none, 1=CANbus, 2,3=Interrupt driven)
@@ -968,7 +968,7 @@ struct config4 {
   byte dwellLimit;
   byte dwellCorrectionValues[6]; ///< Correction table for dwell vs battery voltage
   byte iatRetBins[6]; ///< Inlet Air Temp timing retard curve bins (Unit: ...)
-  byte iatRetValues[6]; ///< Inlet Air Temp timing retard curve values (Unit: ...)
+  byte iatRetValues[6]; ///< Inlet Air Temp timing retard curve values. These are translated by 15 to allow for negative values (Unit: ...) 
   byte dfcoRPM;       ///< RPM at which DFCO turns off/on at
   byte dfcoHyster;    //Hysteris RPM for DFCO
   byte dfcoTPSThresh; //TPS must be below this figure for DFCO to engage (Unit: ...)
@@ -1164,6 +1164,7 @@ struct config9 {
   byte boostByGear6;
 
   byte PWMFanDuty[4];
+
   byte hardRevMode : 2;
   byte coolantProtRPM[6];
   byte coolantProtTemp[6];
@@ -1467,10 +1468,27 @@ struct config15 {
   byte airConUnused4 : 2;
   byte airConIdleUpRPMAdder;
   byte airConPwmFanMinDuty;
+
   //Bytes 98-106 IAC OL PWM IAT
   byte iacOLPWMIATVal [9]; //Open loop IAT duty values for PWM valves
-  //Bytes 107-255 Unused
-  byte unused15_107_255[149];
+
+  //Bytes 107-248 Unused
+  byte Unused15_107_248[151];
+  
+  //DFCO
+  int8_t dfcoAdv; // Spark advance offset for DFCO entry and exit
+  byte dfcoRampOutTime; // Delay time to ramp spark and apply enrichment on DFCO exit
+  byte dfcoExitFuel; // Fuel enrichment on DFCO exit.
+  byte dfcoRampInTime; // time to ramp spark on DFCO entry
+  byte dfcoMinVss; //Min vehicle speed for DFCO
+  byte dfcoEnblGear1: 1; //DFCO Enable Per Gear
+  byte dfcoEnblGear2: 1; //DFCO Enable Per Gear
+  byte dfcoEnblGear3: 1; //DFCO Enable Per Gear
+  byte dfcoEnblGear4: 1; //DFCO Enable Per Gear
+  byte dfcoEnblGear5: 1; //DFCO Enable Per Gear
+  byte dfcoEnblGear6: 1; //DFCO Enable Per Gear
+  byte dfcoDsblwClutch: 1; //DFCO Disable when clutch pressed (Launch Input)
+  byte dfcoExitFuelTime: 1; // Selects if short (two engine cycles) or long (dfcoRampInTime) for dfcoExitFuel;
 
 #if defined(CORE_AVR)
   };
