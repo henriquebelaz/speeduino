@@ -1088,7 +1088,7 @@ struct config6 {
 
   byte iacCLValues[10]; //Closed loop target RPM value
   byte iacOLStepVal[10]; //Open loop step values for stepper motors
-  byte iacOLPWMVal[10]; //Open loop duty values for PMWM valves
+  byte iacOLPWMVal[10]; //Open loop duty values for PWM valves
   byte iacBins[10]; //Temperature Bins for the above 3 curves
   byte iacCrankSteps[4]; //Steps to use when cranking (Stepper motor)
   byte iacCrankDuty[4]; //Duty cycle to use on PWM valves when cranking
@@ -1468,9 +1468,12 @@ struct config15 {
   byte airConUnused4 : 2;
   byte airConIdleUpRPMAdder;
   byte airConPwmFanMinDuty;
-  
-  //Bytes 98-255
-  byte Unused15_98_248[151];
+
+  //Bytes 98-106 IAC OL PWM IAT
+  byte iacOLPWMIATVal [9]; //Open loop IAT duty values for PWM valves
+
+  //Bytes 107-248 Unused
+  byte Unused15_107_248[151];
   
   //DFCO
   int8_t dfcoAdv; // Spark advance offset for DFCO entry and exit
@@ -1486,7 +1489,6 @@ struct config15 {
   byte dfcoEnblGear6: 1; //DFCO Enable Per Gear
   byte dfcoDsblwClutch: 1; //DFCO Disable when clutch pressed (Launch Input)
   byte dfcoExitFuelTime: 1; // Selects if short (two engine cycles) or long (dfcoRampInTime) for dfcoExitFuel;
-  
 
 #if defined(CORE_AVR)
   };
