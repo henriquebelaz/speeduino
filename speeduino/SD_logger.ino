@@ -445,14 +445,6 @@ void checkForSDStop()
   
 }
 
-void syncSDLog()
-{     
-  if( (SD_status == SD_STATUS_ACTIVE) && (!logFile.isBusy()) )
-  {
-    logFile.sync();
-  }
-}
-
 /** 
  * Will perform a complete format of the SD card to ExFAT. 
  * This will delete all files and create a new empty file system.
