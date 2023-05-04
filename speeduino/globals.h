@@ -905,7 +905,7 @@ struct config2 {
   byte canVAGCluster : 1;
   byte enableCluster1 : 1;
   byte enableCluster2 : 1;
-  byte vssAuxCh : 4;
+  byte unusedClusterBits : 4;
 
   byte decelAmount;
 
@@ -1129,10 +1129,7 @@ struct config9 {
   uint16_t caninput_source_can_address[16];        //u16 [15] array holding can address of input
   uint8_t caninput_source_start_byte[16];     //u08 [15] array holds the start byte number(value of 0-7)
   uint16_t caninput_source_num_bytes;     //u16 bit status of the number of bytes length 1 or 2
-  
-  byte caninputEndianess:1;
-  //byte unused:2
-  //...
+  byte unused10_67;
   byte unused10_68;
   byte enable_candata_out : 1;
   byte canoutput_sel[8];
@@ -1471,12 +1468,10 @@ struct config15 {
   byte airConUnused4 : 2;
   byte airConIdleUpRPMAdder;
   byte airConPwmFanMinDuty;
-
   //Bytes 98-106 IAC OL PWM IAT
   byte iacOLPWMIATVal [9]; //Open loop IAT duty values for PWM valves
-
   //Bytes 107-248 Unused
-  byte Unused15_107_248[151];
+  byte unused15_107_248[142];
   
   //DFCO
   int8_t dfcoAdv; // Spark advance offset for DFCO entry and exit
